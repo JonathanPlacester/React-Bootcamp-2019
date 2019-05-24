@@ -38,10 +38,10 @@ class MovieCard extends React.Component {
   componentWillUnmount() {
     console.log('I will unmount')
   }
-  
+
   render() {
-    const { id, title, year, image, overview, deleteMovie } = this.props
-    return <div className='movie-container'>   
+    const { id, title, year, overview, deleteMovie, poster_path } = this.props
+    return <div className='movie-container'>
         <div className='favourite-container'>
             <button onClick={this.handleCheck} className='favourite-button'>
                 <span className={`fa fa-star favourite-star ${this.state.checked ? 'checked': ''}`}></span>
@@ -53,7 +53,7 @@ class MovieCard extends React.Component {
       <h1>{title}</h1>
       <div>{year}</div>
       <div className='overview-container'>
-        <img className='overview-img' src={image} alt='Movie' />
+        <img className='overview-img' src={`https://image.tmdb.org/t/p/original/` + poster_path} alt='Movie' />
         <p>{overview}</p>
       </div>
     </div>
