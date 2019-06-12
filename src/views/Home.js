@@ -1,40 +1,59 @@
-import React from 'react';
-import moviesData from '../data/movies.json'
+import React from 'react'
+
+import MainLayout from '../layouts/MainLayout'
 import MovieCard from '../components/MovieCard'
-const Api_Key = 'af30f455efed1a004d1a1aeaa1954223';
+
+//import withAuth from '../enhancers/withAuth'
+//import AuthProvider from '../enhancers/AuthProvider.js'
+import { AuthContext } from '../enhancers/AuthContext'
+
+const WelcomeText = ({ isAuth, name }) =>
+  <div style={{ fontSize: '3em', color: 'white' }}>
+    {isAuth ? `Bienvenido a casa ${name}` : 'Go away'}
+  </div>
+
 class Home extends React.Component {
   state = {
-   ...moviesData,
+    //...moviesData,
   }
-   componentDidMount() {
-    fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${Api_Key}`).then((res) => res.json()).then((data) => {
-      const adultMovies = data.results.filter((e) => e.popularity <= 100);
-      console.log('adultos', adultMovies);
 
-      this.setState((state, props) => ({
-        movies: adultMovies
-      }))
-    });
-   }
+  static contextType = AuthContext
+
+  addMovie = (movie) => {
+    this.setState({ movies: [...this.state.movies, movie] })
+  }
+
   deleteMovie = (movieId) => {
+    /* if you want to control logic in local state
     this.setState((state, props) => {
       const movies = state.movies.filter((movie) => movie.id !== movieId)
-      return  {
+      return {
         movies
       }
-    })
+    }) */
+
+    // if you want to use Redux, you should do this
+    this.props.removeMovie(movieId)
   }
 
-
-    render() {
-        const { movies } = this.state
-        return <div>
-        <h1 className='main-title'>Movie App</h1>
-        <div className='content'>
-          {movies.map((movie) => <MovieCard deleteMovie={this.deleteMovie} key={movie.id} {...movie} />)}
-        </div>
-      </div>
-    }
+  render() {
+    const { movies } = this.props
+    return <div>
+      <WelcomeText isAuth={this.context.isAuth} name={this.context.name} />
+      <MainLayout
+        title='Movies'
+        content={
+          <React.Fragment>
+            <button className='fetch-button' onClick={this.props.fetchMovies}>Fetch Movies</button>
+            <div className='movies-content'>
+              {movies.data.map((movie) =>
+                <MovieCard deleteMovie={this.deleteMovie} key={movie.id} {...movie} />
+              )}
+            </div>
+          </React.Fragment>}>
+      </MainLayout>
+    </div>
+  }
 }
 
 export default Home

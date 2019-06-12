@@ -2,9 +2,32 @@
    box-sizing: border-box;
  }
 
-.content {
+.movies-content {
   display: flex;
   flex-wrap: wrap;
+}
+
+.detail-button {
+  background-color: transparent;
+  border-radius: 5px;
+  border: 1px solid azure;
+  color: orange;
+  display: inline-block;
+  padding: 1em;
+  text-decoration: none;
+  font-weight: thin;
+  margin: 1em;
+  transition: all .5s ease;
+  width: 100px;
+}
+
+.detail-button:hover {
+  color: azure;
+  background-color: orange;
+}
+
+.fetch-button {
+  margin: 0 auto;
 }
 
 .movie-container {
@@ -64,6 +87,18 @@
 
 .checked {
   color: orange;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 0 auto;
+  max-width: 300px;
+}
+
+.form input {
+  margin: 5px;
 }
 
 @media (max-width: 980px) {
