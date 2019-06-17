@@ -1,0 +1,9 @@
+$color-gray: gray;
+
+.container-app {
+  .container-text{
+    p{
+      color: $color-gray;
+    }
+  }
+}
